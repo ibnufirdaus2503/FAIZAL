@@ -1,0 +1,44 @@
+USE [KKTERP]
+GO
+
+/****** Object:  Table [dbo].[group_mold_size]    Script Date: 2025/06/26 1:51:11 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[group_mold_size](
+	[grop_size] [varchar](20) NULL,
+	[CODE_SIZE] [varchar](5) NULL,
+	[molh_idxx] [int] NULL
+) ON [PRIMARY]
+GO
+
+
+------
+
+
+ ALTER TABLE KKTERP.dbo.mold_detail
+ADD mols_seqn int;
+  ALTER TABLE KKTERP.dbo.order_header
+ADD CODE_PRES int;
+
+
+------
+
+ALTER VIEW [dbo].[vModel] AS
+
+SELECT A.modl_idxx model_id,B.CODE_BRAN brand_id,ISNULL(B.CODE_GCUS,'') customer_id,ISNULL(D.codd_desc,'') customer_name,
+C.codd_desc brand_name,A.modl_name model_name,B.vend_idxx,E.vend_name,A.modl_fgod pack_cp,A.MAST_IDXX
+FROM KKTERP.dbo.model A
+LEFT JOIN KKTERP.dbo.mold_master B ON A.mast_idxx=B.mast_idxx
+LEFT JOIN KKTERP.dbo.code_common C ON C.codh_flnm='CODE_BRAN' AND B.CODE_BRAN=C.codd_valu
+LEFT JOIN KKTERP.dbo.code_common D ON D.codh_flnm='CODE_GCUS' AND B.CODE_GCUS=D.codd_valu
+LEFT JOIN KKTERP.dbo.vendor E ON E.vend_idxx=B.vend_idxx
+ 
+
+
+
+ 
+GO
